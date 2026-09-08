@@ -47,6 +47,9 @@ export default function LoginPage() {
               Password
               <input type="password" required value={password} onChange={e => setPassword(e.target.value)} className="mt-2 w-full rounded-xl border border-[#d9d6cc] bg-white px-4 py-3 outline-none transition focus:border-[#858b78] focus:ring-2 focus:ring-[#dfe3d8]" placeholder="Password" autoComplete="current-password" />
             </label>
+            <div className="-mt-2 text-right">
+              <Link href="/forgot-password" className="text-sm font-medium text-[#65705b] transition hover:text-[#3f473b]">Lupa password?</Link>
+            </div>
             {error && <p role="alert" className="rounded-xl bg-[#f6e9e6] px-4 py-3 text-sm text-[#9a5146]">{error}</p>}
             <button type="submit" disabled={loading} className="w-full rounded-full bg-[#3f473b] px-5 py-3.5 font-semibold text-white transition hover:bg-[#30372d] disabled:cursor-not-allowed disabled:opacity-50">{loading ? 'Memproses...' : 'Masuk ke Dashboard'}</button>
           </form>
