@@ -13,7 +13,7 @@ export default function Home() {
           <p className="text-sm font-semibold uppercase tracking-[0.2em] opacity-60">Bailang • Manado</p>
           <h1 className="mt-4 text-5xl md:text-7xl font-bold tracking-tight">Kos nyaman untuk tinggal dan merasa di rumah.</h1>
           <p className="mt-6 text-lg md:text-xl opacity-70 max-w-2xl">Temukan kamar kos di Bailang Bu Nori dengan informasi harga, fasilitas, dan ketersediaan yang selalu diperbarui.</p>
-          <Link href="/kamar" className="inline-block mt-8 rounded-full bg-white text-black border border-black/10 px-6 py-3 font-semibold shadow-sm hover:bg-black/5 transition">Lihat Kamar</Link>
+          <Link href="/kamar" className="inline-flex items-center justify-center mt-8 rounded-full bg-amber-300 text-black border-2 border-amber-400 px-7 py-3 font-bold shadow-md hover:bg-amber-400 hover:border-amber-500 transition">Lihat Kamar</Link>
         </div>
       </section>
 
