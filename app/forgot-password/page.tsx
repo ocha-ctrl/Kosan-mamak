@@ -17,12 +17,12 @@ export default function ForgotPasswordPage() {
     setMessage('')
     setError('')
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: 'https://kosan-mamak.vercel.app/reset-password',
     })
 
     if (error) {
-      setError('Email reset belum dapat dikirim. Silakan coba lagi.')
+      setError(`Gagal mengirim email: ${error.message}`)
     } else {
       setMessage('Email reset password sudah dikirim. Cek inbox atau folder Spam/Junk.')
     }
@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
               Email owner
               <input type="email" required value={email} onChange={e => setEmail(e.target.value)} className="mt-2 w-full rounded-xl border border-[#d9d6cc] bg-white px-4 py-3 outline-none transition focus:border-[#858b78] focus:ring-2 focus:ring-[#dfe3d8]" placeholder="Email owner" autoComplete="email" />
             </label>
-            {error && <p role="alert" className="rounded-xl bg-[#f6e9e6] px-4 py-3 text-sm text-[#9a5146]">{error}</p>}
+            {error && <p role="alert" className="rounded-xl bg-[#f6e9e6] px-4 py-3 text-sm leading-6 text-[#9a5146]">{error}</p>}
             {message && <p role="status" className="rounded-xl bg-[#edf2e8] px-4 py-3 text-sm leading-6 text-[#526047]">{message}</p>}
             <button type="submit" disabled={loading} className="w-full rounded-full bg-[#3f473b] px-5 py-3.5 font-semibold text-white transition hover:bg-[#30372d] disabled:cursor-not-allowed disabled:opacity-50">{loading ? 'Mengirim...' : 'Kirim link reset'}</button>
           </form>
