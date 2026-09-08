@@ -1,0 +1,12 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { createClient } from '@/lib/supabase'
+import type { Room } from '@/types/database'
+
+export default function ManageRooms(){const supabase=createClient();const [rooms,setRooms]=useState<Room[]>([]);const [loading,setLoading]=useState(true);const [msg,setMsg]=useState('')
+useEffect(()=>{(async()=>{const {data:{user}}=await supabase.auth.getUser();if(!user){location.href='/login';return}const {data}=await supabase.from('rooms').select('*').order('room_number');setRooms((data??[]) as Room[]);setLoading(false)})()},[])
+async function toggle(r:Room){setMsg('Menyimpan...');const next=r.availability==='Tersedia'?'Terisi':'Tersedia';const {data,error}=await supabase.from('rooms').update({availability:next}).eq('id',r.id).select().single();if(error)setMsg(error.message);else{setRooms(rs=>rs.map(x=>x.id===r.id?data as Room:x));setMsg('Tersimpan ✓')}}
+async function remove(r:Room){if(!confirm(`Hapus Kamar ${r.room_number}?`))return;const {error}=await supabase.from('rooms').delete().eq('id',r.id);if(error)setMsg(error.message);else setRooms(rs=>rs.filter(x=>x.id!==r.id))}
+return <main className="min-h-screen px-6 py-8 md:px-12"><div className="mx-auto max-w-6xl"><div className="flex items-center justify-between"><div><Link href="/admin" className="text-sm opacity-60">← Dashboard</Link><h1 className="mt-3 text-3xl font-bold">Kelola Kamar</h1></div><span className="text-sm opacity-60">{msg}</span></div>{loading?<p className="mt-8">Memuat...</p>:<div className="mt-8 grid gap-4">{rooms.map(r=><div key={r.id} className="rounded-3xl border bg-white p-5"><div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"><div><p className="text-xl font-bold">Kamar {r.room_number}</p><p className="mt-1 font-semibold">Rp {Number(r.price).toLocaleString('id-ID')} / bulan</p><p className="mt-1 text-sm opacity-60">{r.description}</p></div><div className="flex gap-2"><button onClick={()=>toggle(r)} className="rounded-full border px-4 py-2 text-sm">{r.availability==='Tersedia'?'Tandai Terisi':'Tandai Tersedia'}</button><Link href={`/admin/kamar/${r.id}`} className="rounded-full bg-black px-4 py-2 text-sm font-semibold text-white">Edit</Link><button onClick={()=>remove(r)} className="rounded-full border border-red-200 px-4 py-2 text-sm text-red-600">Hapus</button></div></div></div>)}</div>}</div></main>}
